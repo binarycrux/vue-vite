@@ -1,47 +1,98 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+<script>
+export default {
+  data() {
+    return {
+      name: "Joe Doe",
+      isActive: 1,
+      tasks: [
+        {
+          title: "Learn Liveview",
+          status: "done",
+          docs: "https://www.liveview.com",
+          classStatus: "done",
+        },
+        {
+          title: "Learn VueJs",
+          status: "pending",
+          docs: "https://www.vuejs.com",
+          classStatus: "pending",
+        },
+        {
+          title: "Explore Livevue",
+          status: "pending",
+          docs: "https://www.livevue.com",
+          classStatus: "pending",
+        },
+        // Add more tasks, format:
+        // {
+        //   title: "",
+        //   status: "",
+        //   docs: "https://www.example.com",
+        //   classStatus: "",
+        // },
+      ],
+    };
+  },
+
+  methods: {
+    toggleStatus(task) {
+      if (task.status === "done") {
+        task.status = "pending";
+        task.classStatus = "pending";
+      } else {
+        task.status = "done";
+        task.classStatus = "done";
+      }
+    },
+  },
+};
 </script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <h1 class="text-white text-xl font-bold py-4 w-full bg-[#035a52] text-center">
+    Welcome: {{ name }}
+  </h1>
+  <p class="text-center">
+    User:
+    <span v-if="isActive">Active</span>
+    <span v-else>Offline</span>
+  </p>
+  <h2 class="mt-8 text-2xl">Tasks</h2>
+  <ul>
+    <li v-for="task in tasks" :key="task.title" class="pl-2">
+      • {{ task.title }} - docs:
+      <a v-bind:href="task.docs" class="underline text-[14px text-green-700"
+        >here</a
+      >
+      <button
+        @click="toggleStatus(task)"
+        :class="task.classStatus"
+        class="inline-block mx-2 px-1"
+      >
+        {{ task.status }}
+      </button>
+    </li>
+  </ul>
 </template>
-
 <style scoped>
-header {
-  line-height: 1.5;
+h1:nth-child(2) {
+  margin-top: 2px;
+  font-weight: 600;
 }
-
-.logo {
+h2 {
+  margin-top: 1rem;
+}
+li {
   display: block;
-  margin: 0 auto 2rem;
+  margin-block: 0.5rem;
 }
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+button {
+  display: inline-block;
+  margin-left: 1rem;
+}
+.done {
+  background: #d8e267;
+}
+.pending {
+  background: #ffa000;
 }
 </style>
