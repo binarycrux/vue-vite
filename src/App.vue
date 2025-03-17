@@ -4,7 +4,21 @@ import { ref } from "vue";
 
 const name = ref("Joe Doe");
 const isActive = ref(true);
+const newTask = ref("");
 
+const addTask = () => {
+  if (newTask.value !== "") {
+    tasks.value.push({
+      title: newTask.value,
+      status: "pending",
+      classStatus: "pending",
+    });
+  }
+};
+
+const deleteTask = (index) => {
+  tasks.value.splice(index, 1);
+};
 const tasks = ref([
   {
     title: "Learn Liveview",
@@ -14,7 +28,7 @@ const tasks = ref([
   },
   {
     title: "Learn VueJs",
-    status: "in progress",
+    status: "on progress",
     docs: "https://www.vuejs.com",
     classStatus: "pending",
   },
@@ -24,11 +38,10 @@ const tasks = ref([
     docs: "https://www.livevue.com",
     classStatus: "pending",
   },
-  // Add more tasks, format:
+  // Add more persistent tasks, format:
   // {
   //   title: "",
   //   status: "",
-  //   docs: "https://www.example.com",
   //   classStatus: "",
   // },
 ]);
@@ -47,25 +60,50 @@ const toggleStatus = (task) => {
   <h1 class="text-white text-xl font-bold py-4 w-full bg-[#035a52] text-center">
     Welcome: {{ name }}
   </h1>
-  <p class="text-center">
+  <p class="user-status text-right pr-2">
     User:
     <span v-if="isActive">Active</span>
     <span v-else>Offline</span>
   </p>
-  <h2 class="mt-8 text-2xl">Tasks</h2>
-  <ul>
-    <li v-for="task in tasks" :key="task.title" class="pl-2">
-      • {{ task.title }} - docs:
-      <a :href="task.docs" class="underline text-[14px text-green-700">here</a>
-      <button
-        @click="toggleStatus(task)"
-        :class="task.classStatus"
-        class="inline-block mx-2 px-1"
-      >
-        {{ task.status }}
+  <main class="pl-4">
+    <form @submit.prevent="addTask">
+      <label for="newtask">Add new activity*</label><br />
+      <input
+        type="text"
+        name="newtask"
+        id="newtask"
+        v-model="newTask"
+        class="border-[0.5px] border-[#035a52] px-2 py-[3px] w-[50%] focus:border-[0.5px] focus:outline-0"
+      />
+      <button type="submit" class="bg-[#035a52] px-4 py-1 text-white">
+        Add
       </button>
-    </li>
-  </ul>
+    </form>
+    <h2 class="mt-10 text-xl">Your Tasks:</h2>
+    <ul>
+      <li v-for="(task, index) in tasks" :key="task.title" class="pl-2">
+        {{ index + 1 }}. {{ task.title }}
+        <span v-if="task.docs"
+          >- docs:
+          <a :href="task.docs" class="underline text-[14px text-green-700"
+            >here</a
+          ></span
+        >
+        <button
+          @click="toggleStatus(task)"
+          :class="task.classStatus"
+          class="toggle-status px-1"
+        >
+          {{ task.status }}
+        </button>
+        <span
+          @click="deleteTask(index)"
+          class="btn-delete text-[#ff3500] inline-block px-2 cursor-default font-extrabold bg-[#e8eae5]"
+          >X</span
+        >
+      </li>
+    </ul>
+  </main>
 </template>
 <style scoped>
 h1:nth-child(2) {
@@ -75,11 +113,18 @@ h1:nth-child(2) {
 h2 {
   margin-top: 1rem;
 }
+.user-status {
+  font-weight: 600;
+}
+form {
+  display: block;
+  margin-top: 1rem;
+}
 li {
   display: block;
   margin-block: 0.5rem;
 }
-button {
+button.toggle-status {
   display: inline-block;
   margin-left: 1rem;
 }
@@ -88,5 +133,10 @@ button {
 }
 .pending {
   background: #ffa000;
+}
+.btn-delete {
+  display: inline-block;
+  margin-left: 4px;
+  font-weight: bold;
 }
 </style>

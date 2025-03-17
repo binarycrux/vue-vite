@@ -55,7 +55,7 @@ export default {
   <h1 class="text-white text-xl font-bold py-4 w-full bg-[#035a52] text-center">
     Welcome: {{ name }}
   </h1>
-  <p class="text-center">
+  <p class="text-right">
     User:
     <span v-if="isActive">Active</span>
     <span v-else>Offline</span>
