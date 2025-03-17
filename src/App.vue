@@ -1,53 +1,46 @@
-<script>
-export default {
-  data() {
-    return {
-      name: "Joe Doe",
-      isActive: 1,
-      tasks: [
-        {
-          title: "Learn Liveview",
-          status: "done",
-          docs: "https://www.liveview.com",
-          classStatus: "done",
-        },
-        {
-          title: "Learn VueJs",
-          status: "in progress",
-          docs: "https://www.vuejs.com",
-          classStatus: "pending",
-        },
-        {
-          title: "Explore Livevue",
-          status: "pending",
-          docs: "https://www.livevue.com",
-          classStatus: "pending",
-        },
-        // Add more tasks, format:
-        // {
-        //   title: "",
-        //   status: "",
-        //   docs: "https://www.example.com",
-        //   classStatus: "",
-        // },
-      ],
-    };
-  },
+<!-- Using Composition API Style -->
+<script setup>
+import { ref } from "vue";
 
-  methods: {
-    toggleStatus(task) {
-      if (task.status === "done") {
-        task.status = "pending";
-        task.classStatus = "pending";
-      } else if (task.status === "done") {
-        task.status = "done";
-        task.classStatus = "done";
-      } else {
-        task.status = "done";
-        task.classStatus = "done";
-      }
-    },
+const name = ref("Joe Doe");
+const isActive = ref(true);
+
+const tasks = ref([
+  {
+    title: "Learn Liveview",
+    status: "done",
+    docs: "https://www.liveview.com",
+    classStatus: "done",
   },
+  {
+    title: "Learn VueJs",
+    status: "in progress",
+    docs: "https://www.vuejs.com",
+    classStatus: "pending",
+  },
+  {
+    title: "Explore Livevue",
+    status: "pending",
+    docs: "https://www.livevue.com",
+    classStatus: "pending",
+  },
+  // Add more tasks, format:
+  // {
+  //   title: "",
+  //   status: "",
+  //   docs: "https://www.example.com",
+  //   classStatus: "",
+  // },
+]);
+
+const toggleStatus = (task) => {
+  if (task.status === "done") {
+    task.status = "pending";
+    task.classStatus = "pending";
+  } else {
+    task.status = "done";
+    task.classStatus = "done";
+  }
 };
 </script>
 <template>
