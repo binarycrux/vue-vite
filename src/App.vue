@@ -13,7 +13,7 @@ export default {
         },
         {
           title: "Learn VueJs",
-          status: "pending",
+          status: "in progress",
           docs: "https://www.vuejs.com",
           classStatus: "pending",
         },
@@ -39,6 +39,9 @@ export default {
       if (task.status === "done") {
         task.status = "pending";
         task.classStatus = "pending";
+      } else if (task.status === "done") {
+        task.status = "done";
+        task.classStatus = "done";
       } else {
         task.status = "done";
         task.classStatus = "done";
@@ -60,9 +63,7 @@ export default {
   <ul>
     <li v-for="task in tasks" :key="task.title" class="pl-2">
       • {{ task.title }} - docs:
-      <a v-bind:href="task.docs" class="underline text-[14px text-green-700"
-        >here</a
-      >
+      <a :href="task.docs" class="underline text-[14px text-green-700">here</a>
       <button
         @click="toggleStatus(task)"
         :class="task.classStatus"
