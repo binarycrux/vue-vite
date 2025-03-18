@@ -1,4 +1,3 @@
-<!-- Using Composition API Style -->
 <script setup>
 import { ref, onMounted, computed } from "vue";
 
@@ -17,24 +16,28 @@ const tasks = ref([
     status: "done",
     docs: "https://www.liveview.com",
     classStatus: "done",
+    strikeThrough: true,
   },
   {
     title: "Learn VueJs",
     status: "on progress",
     docs: "https://www.vuejs.com",
     classStatus: "pending",
+    strikeThrough: false,
   },
   {
     title: "Explore Livevue",
     status: "pending",
     docs: "https://www.livevue.com",
     classStatus: "pending",
+    strikeThrough: false,
   },
   // Add more persistent tasks, format:
   // {
   //   title: "",
   //   status: "",
   //   classStatus: "",
+  //   strikeThrough: false,
   // },
 ]);
 
@@ -47,6 +50,7 @@ const tasks = ref([
 //       title: todo.title,
 //       status: todo.completed ? "done" : "pending",
 //       classStatus: todo.completed ? "done" : "pending",
+//       strikeThrough: todo.completed,
 //     }));
 //   } catch (error) {
 //     console.log("Error fetching tasks!");
@@ -58,9 +62,11 @@ const toggleStatus = (task) => {
   if (task.status === "done") {
     task.status = "pending";
     task.classStatus = "pending";
+    task.strikeThrough = false;
   } else {
     task.status = "done";
     task.classStatus = "done";
+    task.strikeThrough = true;
   }
 };
 
@@ -71,6 +77,7 @@ const addTask = () => {
       title: newTask.value,
       status: "pending",
       classStatus: "pending",
+      strikeThrough: false,
     });
     inputError.value = false;
     newTask.value = "";
@@ -152,23 +159,28 @@ onMounted(() => {
     <h2 class="mt-10 text-xl">Your Tasks:</h2>
     <ul>
       <li v-for="(task, index) in tasks" :key="task.title" class="pl-2">
-        {{ index + 1 }}. {{ task.title }}
-        <span v-if="task.docs"
-          >- docs:
-          <a :href="task.docs" class="underline text-[14px] text-green-700"
-            >here</a
+        {{ index + 1 }}.
+        <span :class="{ 'line-through text-neutral-800': task.strikeThrough }"
+          >{{ task.title }}
+          <span v-if="task.docs"
+            >- docs:
+            <a :href="task.docs" class="underline text-[14px] text-green-700"
+              >here</a
+            ></span
           ></span
         >
         <button
           @click="toggleStatus(task)"
           :class="task.classStatus"
           class="toggle-status px-1"
+          title="Click to toggle status"
         >
           {{ task.status }}
         </button>
         <span
           @click="deleteTask(index)"
           class="btn-delete text-[#ff3500] inline-block px-2 cursor-default font-extrabold bg-[#e8eae5]"
+          title="Delete this task"
           >X</span
         >
       </li>
