@@ -32,7 +32,7 @@ const tasks = ref([
     classStatus: "pending",
     strikeThrough: false,
   },
-  // Add more persistent tasks, format:
+  // Add more persistent tasks:
   // {
   //   title: "",
   //   status: "",
@@ -41,7 +41,7 @@ const tasks = ref([
   // },
 ]);
 
-// Disable to fetch tasks from an online fake Rest api
+// Uncomment to fetch tasks from an online fake Rest api
 // onMounted(async () => {
 //   try {
 //     const response = await fetch("https://jsonplaceholder.typicode.com/todos");
