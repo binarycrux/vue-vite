@@ -38,7 +38,7 @@ const tasks = ref([
   // },
 ]);
 
-// Fetch tasks from an online fake Rest api
+// Disable to fetch tasks from an online fake Rest api
 // onMounted(async () => {
 //   try {
 //     const response = await fetch("https://jsonplaceholder.typicode.com/todos");
